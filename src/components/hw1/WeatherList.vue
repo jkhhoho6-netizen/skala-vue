@@ -10,8 +10,8 @@ defineProps({
 
 const emit = defineEmits(['select-city', 'show-detail'])
 
-const onSelectCity = (cityName) => {
-  emit('select-city', cityName)
+const onSelectCity = (city) => {
+  emit('select-city', city)
 }
 
 const onShowDetail = (cityName, status) => {

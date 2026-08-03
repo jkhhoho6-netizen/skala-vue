@@ -9,7 +9,7 @@ const { city } = defineProps({
 const emit = defineEmits(['select-city', 'show-detail'])
 
 const handleCardClick = () => {
-  emit('select-city', city.name)
+  emit('select-city', city)
 }
 
 const handleDetailClick = () => {
