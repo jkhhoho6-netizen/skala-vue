@@ -1,7 +1,8 @@
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useConfigStore } from '../stores/configStore'
+import { useWeatherStore } from '../stores/weatherStore'
 import BaseDashboardCard from '../components/hw1/BaseDashboardCard.vue'
 import SearchBar from '../components/hw1/SearchBar.vue'
 import WeatherCard from '../components/hw1/WeatherCard.vue'
@@ -9,18 +10,15 @@ import WeatherCard from '../components/hw1/WeatherCard.vue'
 const router = useRouter()
 const route = useRoute()
 const configStore = useConfigStore()
+const weatherStore = useWeatherStore()
 const searchQuery = ref(typeof route.query.q === 'string' ? route.query.q : '')
 const selectedMessage = ref('카드를 클릭하거나 검색해 보세요.')
 
-const weatherList = [
-  { id: 'city_01', name: '서울', searchWords: ['tjdnf', 'seoul'], temp: 28, status: '맑음' },
-  { id: 'city_02', name: '수원', searchWords: ['tndnjs', 'suwon'], temp: 24, status: '비' },
-  { id: 'city_03', name: '부산', searchWords: ['qntks', 'busan'], temp: 26, status: '구름' },
-]
+onMounted(() => weatherStore.fetchWeather())
 
 const filteredWeatherList = computed(() => {
   const query = searchQuery.value.trim().toLowerCase()
-  return weatherList.filter(
+  return weatherStore.cities.filter(
     (city) =>
       city.name.includes(query) || city.searchWords.some((word) => word.includes(query)),
   )
@@ -70,14 +68,17 @@ watch(
 
       <template #list>
         <h3 class="weather-list-title">🗺 지역별 날씨 현황</h3>
+        <p v-if="weatherStore.isLoading" class="state-message">실시간 날씨를 불러오는 중입니다...</p>
+        <p v-else-if="weatherStore.error" class="error-message">{{ weatherStore.error }}</p>
         <WeatherCard
+          v-else
           v-for="city in displayedWeatherList"
           :key="city.id"
           :city="city"
           @select-card="selectCard"
           @click-detail="openDetail"
         />
-        <p v-if="displayedWeatherList.length === 0" class="empty-message">
+        <p v-if="!weatherStore.isLoading && !weatherStore.error && displayedWeatherList.length === 0" class="empty-message">
           검색 결과가 없습니다.
         </p>
       </template>
@@ -113,4 +114,13 @@ watch(
   color: #64748b;
   text-align: center;
 }
+
+.state-message,
+.error-message {
+  padding: 14px;
+  color: #64748b;
+  text-align: center;
+}
+
+.error-message { color: #c2410c; }
 </style>

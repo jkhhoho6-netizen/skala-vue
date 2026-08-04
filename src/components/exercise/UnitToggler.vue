@@ -3,13 +3,20 @@ import { storeToRefs } from 'pinia'
 import { useConfigStore } from '../../stores/configStore'
 
 const configStore = useConfigStore()
-const { unit, unitSymbol } = storeToRefs(configStore)
+const { unit } = storeToRefs(configStore)
 </script>
 
 <template>
-  <div class="unit-toggler">
-    <span>날씨단위: {{ unit === 'celsius' ? '섭씨' : '화씨' }}({{ unitSymbol }})</span>
-    <button type="button" @click="configStore.toggleUnit">단위변경</button>
+  <div class="unit-toggler" aria-label="온도 단위 설정">
+    <span>온도 단위</span>
+    <div class="unit-options" role="group" aria-label="온도 단위 선택">
+      <button :class="{ active: unit === 'celsius' }" type="button" @click="configStore.setUnit('celsius')">
+        °C 섭씨
+      </button>
+      <button :class="{ active: unit === 'fahrenheit' }" type="button" @click="configStore.setUnit('fahrenheit')">
+        °F 화씨
+      </button>
+    </div>
   </div>
 </template>
 
@@ -26,13 +33,16 @@ const { unit, unitSymbol } = storeToRefs(configStore)
 
 button {
   padding: 7px 10px;
-  color: white;
   font-weight: 700;
-  background: #406486;
-  border: 0;
+  color: #64748b;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
   border-radius: 4px;
   cursor: pointer;
 }
 
-button:hover { background: #31526f; }
+button:hover,
+button.active { color: white; background: #2563eb; border-color: #2563eb; }
+
+.unit-options { display: flex; gap: 4px; }
 </style>

@@ -1,7 +1,8 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useConfigStore } from '../stores/configStore'
+import { useWeatherStore } from '../stores/weatherStore'
 
 const props = defineProps({
   cityId: { type: String, required: true },
@@ -9,13 +10,13 @@ const props = defineProps({
 
 const router = useRouter()
 const configStore = useConfigStore()
-const mockWeather = {
-  city_01: { name: '서울특별시', temp: 28, status: '맑음', humidity: 55, wind: 2.5 },
-  city_02: { name: '수원시', temp: 24, status: '비', humidity: 72, wind: 1.8 },
-  city_03: { name: '부산광역시', temp: 26, status: '구름', humidity: 68, wind: 3.1 },
-}
+const weatherStore = useWeatherStore()
 
-const city = computed(() => mockWeather[props.cityId])
+onMounted(() => {
+  if (!weatherStore.lastUpdated) weatherStore.fetchWeather()
+})
+
+const city = computed(() => weatherStore.cities.find((item) => item.id === props.cityId))
 const displayTemp = computed(() => {
   if (!city.value) return 0
   return configStore.unit === 'fahrenheit'
@@ -25,7 +26,16 @@ const displayTemp = computed(() => {
 </script>
 
 <template>
-  <section v-if="city" class="detail-card">
+  <section v-if="weatherStore.isLoading" class="detail-card">
+    <h2>실시간 날씨를 불러오는 중입니다...</h2>
+  </section>
+
+  <section v-else-if="weatherStore.error" class="detail-card not-found-detail">
+    <h2>날씨 정보를 불러오지 못했습니다.</h2>
+    <p>{{ weatherStore.error }}</p>
+  </section>
+
+  <section v-else-if="city" class="detail-card">
     <h2>📊 지역별 상세 기상 관측 정보</h2>
     <div class="weather-summary">
       <p>📍 지정 지역: 대한민국 {{ city.name }}</p>
