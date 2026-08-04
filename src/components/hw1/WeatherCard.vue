@@ -13,7 +13,7 @@ const handleCardClick = () => {
 }
 
 const handleDetailClick = () => {
-  emit('click-detail', city.name, city.status)
+  emit('click-detail', city)
 }
 </script>
 
@@ -21,7 +21,7 @@ const handleDetailClick = () => {
   <div class="weather-item" @click="handleCardClick">
     <div>
       <p>{{ city.name }} ({{ city.status }})</p>
-      <p>현재 기온: {{ city.temp }}℃</p>
+      <p>현재 기온: {{ city.temp }}{{ city.unitSymbol || '°C' }}</p>
 
       <span v-if="city.temp >= 25" class="hot-label">🔥 더움</span>
       <span v-else class="cool-label">❄ 선선함</span>

@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard-card">
-    <h2>🌤 과제 3: 날씨 (컴포넌트)</h2>
+    <h2>🌤 종합실습 5: 스토어적용</h2>
 
     <div class="search-box">
       <slot name="search"></slot>
