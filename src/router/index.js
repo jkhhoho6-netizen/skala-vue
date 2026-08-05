@@ -1,7 +1,9 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  // GitHub Pages의 프로젝트 경로에서도 `/#/weather` 형식으로 동작하도록
+  // hash 내부에는 Vite base 경로를 다시 넣지 않는다.
+  history: createWebHashHistory(),
   routes: [
     {
       path: '/',
