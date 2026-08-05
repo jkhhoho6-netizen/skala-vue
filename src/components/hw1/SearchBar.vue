@@ -7,38 +7,27 @@ defineProps({
 })
 
 const emit = defineEmits(['update-query'])
-
-const onInput = (event) => {
-  emit('update-query', event.target.value)
-}
 </script>
 
 <template>
   <div class="search-content">
-    <h3>🔍 도시 검색 (한글 및 영타 즉시 동기화)</h3>
-
-    <input type="text" placeholder="검색할 도시 이름 입력" :value="query" @input="onInput" />
-
-    <p>검색 중인 도시: {{ query }}</p>
+    <div class="search-title"><el-icon><Search /></el-icon><h3>도시 검색</h3><span>한글 · 영타 지원</span></div>
+    <el-input :model-value="query" placeholder="서울, 부산 또는 영문으로 검색" clearable size="large" @input="emit('update-query', $event)">
+      <template #prefix><el-icon><Location /></el-icon></template>
+    </el-input>
+    <p v-if="query">“{{ query }}” 검색 결과를 확인하고 있습니다.</p>
+    <p v-else>도시명을 입력하면 실시간으로 필터링됩니다.</p>
   </div>
 </template>
 
 <style scoped>
-.search-content h3 {
-  margin-top: 0;
-  font-size: 16px;
-  color: #2f6ea5;
-}
-
-.search-content input {
-  width: 100%;
-  padding: 8px;
-  box-sizing: border-box;
-  margin-bottom: 8px;
-}
+.search-title { display: flex; align-items: center; gap: 7px; margin-bottom: 10px; color: #2563eb; }
+.search-title h3 { margin: 0; color: #1e3a8a; font-size: 14px; font-weight: 800; }
+.search-title span { margin-left: auto; color: #94a3b8; font-size: 11px; }
 
 .search-content p {
-  color: #1f2937;
-  font-weight: 500;
+  margin: 8px 0 0;
+  color: #64748b;
+  font-size: 12px;
 }
 </style>

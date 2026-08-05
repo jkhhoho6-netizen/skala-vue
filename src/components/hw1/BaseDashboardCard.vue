@@ -1,6 +1,12 @@
 <template>
   <div class="dashboard-card">
-    <h2>🌤 종합실습 5: 스토어적용</h2>
+    <div class="card-heading">
+      <div>
+        <p class="section-label">REGIONAL FORECAST</p>
+        <h2>지역별 날씨 현황</h2>
+      </div>
+      <el-icon class="heading-icon"><DataLine /></el-icon>
+    </div>
 
     <div class="search-box">
       <slot name="search"></slot>
@@ -16,27 +22,26 @@
 
 <style scoped>
 .dashboard-card {
-  width: 460px;
+  width: 100%;
   background: white;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  padding: 20px;
+  border: 1px solid #e5edf8;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 12px 28px rgba(30, 64, 175, .08);
   box-sizing: border-box;
 }
 
-.dashboard-card h2 {
-  margin-top: 0;
-  color: #1f4c7a;
-  border-bottom: 1px solid #e5e5e5;
-  padding-bottom: 10px;
-}
+.card-heading { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+.section-label { margin: 0; color: #3b82f6; font-size: 10px; font-weight: 800; letter-spacing: .14em; }
+.dashboard-card h2 { margin: 3px 0 0; color: #172554; font-size: 20px; font-weight: 800; }
+.heading-icon { color: #60a5fa; font-size: 27px; }
 
 .search-box,
 .list-box {
-  background: #f5f7fb;
-  border: 1px solid #e3e7ef;
-  border-radius: 6px;
-  padding: 14px;
-  margin-bottom: 14px;
+  background: #f8fbff;
+  border: 1px solid #e5edf8;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
 }
 </style>

@@ -2,9 +2,9 @@
 
 #app {
   width: 100%;
-  max-width: 760px;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 32px 20px;
+  padding: 32px 28px 48px;
   font-weight: normal;
 }
 
@@ -23,7 +23,7 @@ a,
 }
 
 body {
-  background: #dfeaf7;
+  background: linear-gradient(135deg, #f4f8ff 0%, #edf5ff 48%, #f8fbff 100%);
 }
 
 @media (max-width: 600px) {

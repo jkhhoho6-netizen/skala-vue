@@ -20,28 +20,27 @@ const handleDetailClick = () => {
 <template>
   <div class="weather-item" @click="handleCardClick">
     <div>
-      <p>{{ city.name }} ({{ city.status }})</p>
-      <p>현재 기온: {{ city.temp }}{{ city.unitSymbol || '°C' }}</p>
-
-      <span v-if="city.temp >= 25" class="hot-label">🔥 더움</span>
-      <span v-else class="cool-label">❄ 선선함</span>
+      <div class="city-heading"><p>{{ city.name }}</p><el-tag size="small" effect="light" round>{{ city.status }}</el-tag></div>
+      <p class="temperature">{{ city.temp }}<small>{{ city.unitSymbol || '°C' }}</small></p>
+      <span v-if="city.temp >= 25" class="hot-label">더운 날씨</span>
+      <span v-else class="cool-label">선선한 날씨</span>
     </div>
-
-    <button @click.stop="handleDetailClick">상세보기</button>
+    <el-button type="primary" plain round @click.stop="handleDetailClick">상세보기 <el-icon><ArrowRight /></el-icon></el-button>
   </div>
 </template>
 
 <style scoped>
 .weather-item {
-  border: 1px solid #d9dfe8;
-  border-radius: 6px;
+  border: 1px solid #e5edf8;
+  border-radius: 13px;
   background: white;
-  padding: 12px;
+  padding: 15px 16px;
   margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
+  transition: .2s ease;
 }
 
 .weather-item:hover {
@@ -50,11 +49,10 @@ const handleDetailClick = () => {
   transition: 0.2s;
 }
 
-.weather-item p {
-  margin: 4px 0;
-  color: #1f2937;
-  font-weight: 500;
-}
+.city-heading { display: flex; align-items: center; gap: 8px; }
+.weather-item p { margin: 0; color: #172554; font-weight: 800; }
+.temperature { margin-top: 4px !important; font-size: 25px; letter-spacing: -.04em; }
+.temperature small { margin-left: 2px; color: #64748b; font-size: 13px; font-weight: 700; }
 
 .hot-label,
 .cool-label {
@@ -62,7 +60,8 @@ const handleDetailClick = () => {
   color: white;
   font-size: 12px;
   padding: 4px 8px;
-  border-radius: 4px;
+  border-radius: 999px;
+  font-weight: 700;
 }
 
 .hot-label {
@@ -70,11 +69,6 @@ const handleDetailClick = () => {
 }
 
 .cool-label {
-  background: #74c0fc;
-}
-
-.weather-item button {
-  padding: 6px 10px;
-  cursor: pointer;
+  background: #60a5fa;
 }
 </style>
